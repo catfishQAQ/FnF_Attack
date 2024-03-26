@@ -157,7 +157,7 @@ class Joint_Attacker_and_Tracker:
 
 
         self.debug_dir = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), 'exp', self.args.experiment_name, 'debug')
-        os.makedirs(self.results_folder, exist_ok=True)
+        os.makedirs(self.debug_dir, exist_ok=True)
 
         self.results_folder = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), 'pred_txt_results', args.experiment_name)
         os.makedirs(self.results_folder, exist_ok=True)
