@@ -306,7 +306,7 @@ class Joint_Attacker_and_Tracker:
 
                 img_to_forward = img_to_forward.type(tensor_type)
 
-                outputs = self.model(img_to_forward)
+                outputs = self.model(img_to_forward) #model are used for the target-detection inference
 
                 outputs_det_debug = postprocess(outputs.clone(), self.num_classes, 0.7, self.nmsthre)  # for visualization
 
@@ -539,7 +539,7 @@ class Joint_Attacker_and_Tracker:
                                                    max=self.clip_high[0, 0, cha])
 
                 with torch.cuda.amp.autocast(enabled=self.amp_training):
-                    loss, preds = self.model(inps_adv, targets_adv, self.iter)
+                    loss, preds = self.model(inps_adv, targets_adv, self.iter) # model used for calculating losses and gradients
             else:
                 with torch.cuda.amp.autocast(enabled=self.amp_training):
                     loss, preds = self.model(inps_adv, targets_adv, self.iter)
@@ -586,7 +586,7 @@ class Joint_Attacker_and_Tracker:
         # model related init
         torch.cuda.set_device(self.local_rank)
         model = self.exp.get_model(adversarial=True, attack_mode=self.args.attack_mode)
-        model.to(self.device)
+        model.to(self.device) #Get the YOLOX model configured for counterattack support
 
         # solver related init
         self.optimizer = self.exp.get_optimizer(self.args.batch_size)
