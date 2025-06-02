@@ -61,7 +61,9 @@ class Exp(BaseExp):
 
         # -----------------   adversarial   ------------------ #
         self.adversarial = False
-
+'''
+This is the init of yolo. 模型初始化和获取
+'''
     def get_model(self, adversarial=False, attack_mode=None):
         from yolox.models import YOLOPAFPN, YOLOX, YOLOXHead
 
