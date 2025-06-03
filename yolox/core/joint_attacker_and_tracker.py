@@ -191,7 +191,7 @@ class Joint_Attacker_and_Tracker:
             self.joint_attack_and_track_in_iter()
             # self.after_epoch()
 
-    def get_target_gt(self, targets):
+    def get_target_gt(self, targets): #生成假目标的位置
 
         GAMMA = 4
         KAPPA = self.arg
