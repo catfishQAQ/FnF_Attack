@@ -120,7 +120,7 @@ def write_results_no_score(filename, results, info_imgs, img_size):  # for SORT
     logger.info('save results to {}'.format(filename))
 
 class Joint_Attacker_and_Tracker:
-    def __init__(self, exp, args):
+    def __init__(self, exp, args):  #exp是有关yolo 模型的参数。exp： An experiment configuration object, usually an instance of the Exp class in YOLOX
         # init function only defines some basic attr, other attrs like model, optimizer are built in
         # before_train methods.
         self.exp = exp
@@ -194,7 +194,8 @@ class Joint_Attacker_and_Tracker:
     def get_target_gt(self, targets):
 
         GAMMA = 4
-        KAPPA = self.args.fp_shift_ratio  # default: 0.2
+        KAPPA = self.arg
+        s.fp_shift_ratio  # default: 0.2
         ct_x_shift = [KAPPA, KAPPA, -KAPPA, -KAPPA]
         ct_y_shift = [KAPPA, -KAPPA, KAPPA, -KAPPA]
         targets_adv = torch.zeros_like(targets)  # shape [1, num_gt, 6]
