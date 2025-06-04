@@ -339,7 +339,7 @@ class Joint_Attacker_and_Tracker:
                 else:
                     results.append((frame_id, online_tlwhs, online_ids))
 
-            if frame_id == self.args.n_frames_per_seq:
+            if frame_id == self.args.n_frames_per_seq:   #视频处理完了就写入  Write the result once it's processed
                 if len(results) != 0:
                     result_filename = os.path.join(self.results_folder, '{}.txt'.format(video_names[video_id]))
                     if not self.args.enable_sort_tracker:
