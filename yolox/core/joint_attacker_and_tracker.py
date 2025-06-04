@@ -86,17 +86,17 @@ class Attack_Scheduler(object):
         self.need_attack = 1
 #将多目标跟踪的输出结果写入 .txt 文件中 Write the output of multi-target tracking to a .txt file 
 def write_results(filename, results, info_imgs, img_size):  # for ByteTrack
-    save_format = '{frame},{id},{x1},{y1},{w},{h},{s},-1,-1,-1\n'
-    org_img_w, org_img_h = info_imgs[1].item(), info_imgs[0].item()
+    save_format = '{frame},{id},{x1},{y1},{w},{h},{s},-1,-1,-1\n' #s:confidence 
+    org_img_w, org_img_h = info_imgs[1].item(), info_imgs[0].item() #从 info_imgs 中获取原始图像宽、高。Get the original image width and height from info_imgs.
     scale = min(img_size[1] / org_img_w, img_size[0] / org_img_h)
     with open(filename, 'w') as f:
-        for frame_id, tlwhs, track_ids, scores in results:
+        for frame_id, tlwhs, track_ids, scores in results: #该帧中所有目标的位置（格式为 top-left + width + height）Position of all targets in the frame (in the format top-left + width + height)
             for tlwh, track_id, score in zip(tlwhs, track_ids, scores):
                 if track_id < 0:
                     continue
                 # x1, y1, w, h = tlwh  # disabled by F&F attack
                 x1, y1, w, h = tlwh / scale  # added by F&F attack, we fix the input resolution to [1440, 800], we need to scale it back when writing txt files (for evaluating HOTA metrics)
-
+                #将 tlwh 除以 scale，把在模型输入尺寸上的检测框 缩放回原图大小 Divide tlwh by scale to scale the detection frame at the model input size back to its original size.
                 line = save_format.format(frame=frame_id, id=track_id, x1=round(x1, 1), y1=round(y1, 1), w=round(w, 1), h=round(h, 1), s=round(score, 2))
                 f.write(line)
     logger.info('save results to {}'.format(filename))
