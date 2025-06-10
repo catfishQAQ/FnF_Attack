@@ -256,12 +256,12 @@ class YOLOXHead(nn.Module):
                 return outputs
 
     def get_output_and_grid(self, output, k, stride, dtype):
-        grid = self.grids[k]
+        grid = self.grids[k]      #获取当前层级的 grid 缓存 Get the grid cache for the current level
 
-        batch_size = output.shape[0]
+        batch_size = output.shape[0] 
         n_ch = 5 + self.num_classes
         hsize, wsize = output.shape[-2:]
-        if grid.shape[2:4] != output.shape[2:4]:
+        if grid.shape[2:4] != output.shape[2:4]:    #如果 grid 尺寸和特征图不一致，则重新创建 grid      If the grid dimensions do not match the feature map, recreate the grid.
             yv, xv = torch.meshgrid([torch.arange(hsize), torch.arange(wsize)])
             grid = torch.stack((xv, yv), 2).view(1, 1, hsize, wsize, 2).type(dtype)
             self.grids[k] = grid
